@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>跳舞的线饭制网2026</title>
     <style>
-            * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -114,26 +114,36 @@
             background: #2e2e2e;
             color: #bbb;
         }
-        body.dark-mode .announcement-overlay {
+        /* 浮层深色 */
+        body.dark-mode .announcement-overlay,
+        body.dark-mode .settings-overlay {
             background-color: rgba(0,0,0,0.7);
             backdrop-filter: blur(3px);
         }
-        body.dark-mode .announcement-card {
+        body.dark-mode .announcement-card,
+        body.dark-mode .settings-card {
             background: #262626;
             border-color: #bb86fc40;
             color: #f0f0f0;
         }
-        body.dark-mode .announcement-content {
+        body.dark-mode .announcement-content,
+        body.dark-mode .settings-content {
             background: #1f1f1f;
             color: #ddd;
             border-left-color: #bb86fc;
         }
-        body.dark-mode .announcement-btn {
+        body.dark-mode .announcement-btn,
+        body.dark-mode .settings-footer .btn {
             background: #bb86fc;
             color: #121212;
         }
-        body.dark-mode .announcement-close {
-            color: #aaa;
+        body.dark-mode .return-home-bar {
+            background: #2d2d2d;
+            border-color: #555;
+            color: #eaeaea;
+        }
+        body.dark-mode .return-home-bar:hover {
+            background: #3a3a3a;
         }
         body.dark-mode code {
             background: #3b3b3b !important;
@@ -163,7 +173,7 @@
             padding-bottom: 0.75rem;
         }
 
-        /* 顶部栏：搜索 + 深色按钮 — 按钮尺寸调小 */
+        /* 顶部栏：只保留搜索 (返回按钮已移出) */
         .top-bar {
             display: flex;
             align-items: center;
@@ -175,7 +185,7 @@
         }
         .search-container {
             background: white;
-            border-radius: 60px;
+            border-radius: 12px;
             padding: 0.1rem 0.1rem 0.1rem 1.5rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
             border: 1px solid #eef2f6;
@@ -190,7 +200,7 @@
         .search-container input {
             flex: 1;
             border: none;
-            padding: 0.7rem 0;         /* 减小垂直内边距 */
+            padding: 0.7rem 0;
             font-size: 1rem;
             background: transparent;
             outline: none;
@@ -203,10 +213,10 @@
         .search-container button {
             background: #f0f3f8;
             border: none;
-            border-radius: 50px;
-            padding: 0.45rem 1.2rem;    /* 缩小按钮 */
+            border-radius: 12px;
+            padding: 0.45rem 1.2rem;
             margin: 0.3rem;
-            font-size: 0.95rem;          /* 稍微减小字号 */
+            font-size: 0.95rem;
             font-weight: 450;
             color: #2c3e50;
             cursor: pointer;
@@ -224,31 +234,29 @@
             padding-left: 1rem;
         }
 
-        /* 深色模式切换按钮 — 缩小尺寸 */
-        .theme-toggle {
-            width: 44px;                /* 从50px缩小 */
-            height: 44px;
-            border-radius: 50%;
-            background: white;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            font-size: 1.5rem;           /* 调整图标大小 */
-            line-height: 1;
-            display: flex;
+        /* 返回首页栏 (默认隐藏，仅在非全部饭制时显示) */
+        .return-home-bar {
+            display: none;  /* JS控制显示 */
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e9ecf0;
+            border-radius: 12px;
+            padding: 0.5rem 1.2rem;
+            margin: 0.8rem 0 0.2rem 0;
             cursor: pointer;
-            transition: all 0.15s;
-            flex-shrink: 0;
+            width: fit-content;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: background 0.2s;
+            font-size: 1rem;
             color: #1e2b3c;
         }
-        .theme-toggle:hover {
+        .return-home-bar:hover {
             background: #f0f3f8;
         }
-        body.dark-mode .theme-toggle {
-            background: #2d2d2d;
-            border-color: #555;
-            color: #ffdb70;
+        .return-home-bar span {
+            font-size: 1.2rem;
+            line-height: 1;
         }
 
         /* 水平滑动目录 */
@@ -267,7 +275,7 @@
             scroll-snap-align: start;
             background: #ffffffd9;
             border: 1px solid #e9ecf0;
-            border-radius: 40px;
+            border-radius: 12px;
             padding: 0.5rem 1.2rem;
             font-size: 1rem;
             font-weight: 470;
@@ -309,10 +317,10 @@
             border-radius: 8px;
         }
 
-        /* 卡片 */
+        /* 卡片圆角统一12px */
         .card {
             background-color: #ffffff;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
             padding: 1.5rem 1.5rem;
             margin-bottom: 1.8rem;
@@ -323,7 +331,6 @@
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
         }
 
-        /* 隐藏类 */
         .card.series-hidden,
         .hero-title.series-hidden,
         .hero-sub.series-hidden,
@@ -347,7 +354,7 @@
         .author-info {
             background-color: #f8f8fa;
             padding: 1rem 1.2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1.05rem;
             border-left: 4px solid #ffaaa5;
         }
@@ -375,7 +382,7 @@
             padding: 0.8rem 1rem;
             background-color: #f8f9fc;
             border: 1px solid #eaeef2;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 450;
             color: #1e2b3c;
@@ -420,14 +427,14 @@
             .btn { white-space: normal; padding: 0.7rem 0.5rem; font-size: 0.95rem; }
             .hero-title { font-size: 1.8rem; }
             .search-container { padding-left: 1rem; }
-            .search-container button { padding: 0.4rem 1rem; } /* 手机再微调 */
-            .theme-toggle { width: 40px; height: 40px; font-size: 1.4rem; }
+            .search-container button { padding: 0.4rem 1rem; }
             .directory-item { padding: 0.4rem 1rem; font-size: 0.9rem; }
+            .return-home-bar { font-size: 0.9rem; padding: 0.4rem 1rem; }
         }
 
         .badge {
             background: #f0f3f7;
-            border-radius: 4px;
+            border-radius: 12px;
             padding: 0.2rem 0.7rem;
             font-size: 0.75rem;
             color: #4a5b6f;
@@ -442,24 +449,33 @@
             padding: 0.5rem;
         }
 
-        /* ---------- 公告卡片 — 移除关闭叉号，只保留确定按钮 ---------- */
-        .announcement-overlay {
+        /* 浮层样式 + 层级控制 */
+        .announcement-overlay, .settings-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.2);
-            backdrop-filter: blur(2px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 1000;  /* 设置浮层基础 */
             transition: opacity 0.2s;
+            /* 背景色在各自定义中设置，确保背景半透明 */
         }
-        .announcement-card {
+        .settings-overlay {
+            background-color: rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
+            z-index: 1000;
+        }
+        .announcement-overlay {
+            background-color: rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
+            z-index: 1001;  /* 公告比设置更高一层 */
+        }
+        .announcement-card, .settings-card {
             max-width: 420px;
             width: calc(100% - 2rem);
             max-height: 80vh;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             padding: 1.8rem 1.8rem 1.5rem 1.8rem;
             border: 1px solid rgba(255,170,165,0.3);
@@ -473,57 +489,79 @@
             0% { transform: scale(0.95); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        /* 彻底隐藏关闭叉号 — 取消按钮 */
-        .announcement-close {
-            display: none !important;
-        }
-        .announcement-title {
+
+        .announcement-title, .settings-title {
             font-size: 1.9rem;
             font-weight: 500;
             margin-bottom: 1rem;
             flex-shrink: 0;
         }
-        .announcement-content {
+        .announcement-content, .settings-content {
             font-size: 1rem;
             line-height: 1.6;
             background: #faf8f9;
             padding: 1.2rem;
-            border-radius: 8px;
+            border-radius: 12px;
             margin: 1rem 0 1.8rem 0;
             border-left: 4px solid #ffaaa5;
             white-space: pre-line;
             text-align: left;
-            overflow-y: auto;          /* 允许内容滚动 */
+            overflow-y: auto;
             flex: 1;
         }
-        .announcement-button {
+        .settings-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .settings-row .btn {
+            flex: 1 1 auto;
+            min-width: 120px;
+        }
+        .announcement-button, .settings-footer {
             display: flex;
             justify-content: center;
             width: 100%;
             flex-shrink: 0;
+            gap: 12px;
+            flex-wrap: wrap;
         }
-        .announcement-btn {
+        .announcement-btn, .settings-footer .btn {
             background: #1e2b3c;
             color: white;
             border: none;
-            padding: 0.8rem 2.8rem;
-            border-radius: 6px;
-            font-size: 1.1rem;
+            padding: 0.8rem 2.2rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: background 0.15s;
             box-shadow: 0 6px 14px rgba(0,0,0,0.1);
             border: 1px solid #2d4055;
         }
-        .announcement-btn:hover { background: #2d4055; }
+        .announcement-btn:hover, .settings-footer .btn:hover {
+            background: #2d4055;
+        }
         .announcement-hidden { display: none !important; }
+
+        /* 防止背景滚动 (通过JS给body加类) */
+        body.no-scroll {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
 <div class="page-wrapper">
     <h1 class="hero-title"><strong>跳舞的线饭制网</strong></h1>
-    <div class="hero-sub">Dancing Line Fanmade — 让每个饭制发光放彩</div>
 
+    <!-- 顶部栏：只有搜索 (返回按钮已移除) -->
     <div class="top-bar">
         <div class="search-section">
             <div class="search-container">
@@ -531,13 +569,19 @@
                 <button id="searchButton">🔍搜索</button>
             </div>
         </div>
-        <div class="theme-toggle" id="themeToggle" title="切换深色/浅色模式">🌑</div>
     </div>
     <div class="search-hint">输入任意内容......</div>
 
-    <!-- 目录 -->
+    <!-- 返回首页栏 (默认隐藏，JS控制显示) -->
+    <div class="return-home-bar" id="returnHomeBar">
+        <span>←</span> 返回首页
+    </div>
+
+    <!-- 目录 (设置按钮改为纯文字，样式与其他一致) -->
     <div class="directory" id="seriesDirectory">
-        <span class="directory-item all-btn active" data-series="all">全部饭制</span>
+        <span class="directory-item all-btn active" data-series="all">首页</span>
+        <!-- 设置按钮：文字“设置”，无特殊样式，id用于点击 -->
+        <span class="directory-item" id="settingsBtn" style="cursor:pointer;">设置</span>
         <span class="directory-item" data-series="barbecue">烧烤之夜</span>
         <span class="directory-item" data-series="42line">42Line</span>
         <span class="directory-item" data-series="guideline">引导线</span>
@@ -550,15 +594,66 @@
         <span class="directory-item" data-series="tainan">太难Line</span> 
         <span class="directory-item" data-series="kunline">KunLine</span>    
         <span class="directory-item" data-series="cube">Cube-ALC</span>   
-        <span class="directory-item" data-series="noy">Noy's Arphros Levels Collection</span>
+        <span class="directory-item" data-series="noy">Noy's Arphros Levels Collection</span>  
+        <span class="directory-item" data-series="earos">Earos Line</span>
+        <span class="directory-item" data-series="maze">MazeLine 1.0</span>
         <span class="directory-item" data-series="coming">敬请期待</span>
     </div>
-
-    <!-- 烧烤之夜 区块 -->
+    
+    
+      <h1 class="hero-title" data-series="">欢迎来到跳舞的线饭制网</h1>
+    <div class="hero-sub" data-series="">Welcone to Dancing Line Fanmade Website！</div>
+          <div class="card" data-series="" data-search-content="图片">
+  <img src="https://xiaoye6661234.github.io/fo/logo.png"  
+   width="1280" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片1">
+     <br>
+     <div class="hint-text"><i>跳舞的线饭制网</i>Logo</div>
+    </div>
+        <div class="card" data-series="" data-search-content="图片">
+  <img src="https://xiaoye6661234.github.io/fo/xy.jpg"  
+   width="200" 
+     height="200" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片1">
+     <br>
+     <div class="hint-text"><i>主创</i>头像</div>
+    </div>
+    <div class="card" data-series="" data-search-content="关注作者 lnchestn 哔哩哔哩">
+        <h2 class="card-title">上架应用</h2>
+        <div class="button-grid three"><a href="https://docs.qq.com/form/page/DR1B2THdOVmtXcXNH" target="_blank" class="btn">申请表</a></div>
+    </div>  
+    <div class="card" data-series="" data-search-content="关注作者 lnchestn 哔哩哔哩">
+        <h2 class="card-title">上架应用</h2>
+        <div class="button-grid three"><a href="https://wap.mail.qq.com/list/readtemplate?name=wap_ad_tip.html" target="_blank" class="btn">QQ邮箱（发送邮件至goodgood0222@qq.com）</a></div>
+    </div>
+    <!-- ================= 所有饭制合集卡片 (原样完整保留) ================= -->
+    <!-- 烧烤之夜 -->
     <h1 class="hero-title" data-series="barbecue">《驍烤之燁》</h1>
     <div class="hero-sub" data-series="barbecue">Dancing Line Fanmade — Barbecue Night</div>
+        <div class="card" data-series="barbecue" data-search-content="图片">
+        <h2 class="card-title">精美图片</h2>
+  <img src="https://xiaoye6661234.github.io/fo/bn.png"  
+   width="1280" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片1">
+     <br>
+        <img src="https://xiaoye6661234.github.io/fo/bn1.png" 
+     width="1280" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片2">
+     <div class="hint-text"><i>图片</i>精美图片</div>
+    </div>
+    
     <div class="card" data-series="barbecue" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-        <h2 class="card-title">合集简介—Unity</h2>
+        <h2 class="card-title">合集简介—Unity <img src="https://xiaoye6661234.github.io/fo/unity.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2>
         <div class="intro-text">《驍烤之燁》（Barbecue Night）（另名《烧烤之夜》）是跳舞的线社区玩家“驍燁”自制饭制合集，2026年2月份，v.1.0.0版本已上线，但目前仅完成Windows原型版本。且由于作者时间管理和部分原因，此合集将进入停更阶段，感谢玩家们的支持。</div>
         <div class="author-info"><span>作者：驍燁 （总设计）</span></div>
     </div>
@@ -566,19 +661,18 @@
         <h2 class="card-title">更新日志</h2>
         <div class="intro-text">驍烤之燁&烧烤之夜 v1.0.0更新公告<br>1.关卡：<br>  《开端》：可游玩，已完工<br>  《陨石危机》：可游玩，未完工<br>  《很快回来》：不可游玩<br>2.其他更新：<br>   ①设置界面翻新了一下<br>   ②选关界面翻新了一下<br>3.游玩平台：<br>    目前仅限Windows 安卓后面补上<br>4.下载：<br>    支持网盘链接下载</div>
     </div>
-      <div class="card" data-series="barbecue" data-search-content="冷知识">
+    <div class="card" data-series="barbecue" data-search-content="冷知识">
         <h2 class="card-title">冷知识</h2>
         <div class="intro-text">1.《驍烤之燁》这个名字其实是<a href="https://space.bilibili.com/3546947665266985?spm_id_from=333.337.0.0">lnchestn</a>取的，但由于太难写，所以用《烧烤之夜》方便记<br>2.《开端》其实有两个版本，但第一个版本因为开发者不小心删除了不该删的东西，导致工程崩溃，于是就有了第二版<br>3.合集最大帮助者是<a href="https://space.bilibili.com/3546947665266985?spm_id_from=333.337.0.0">lnchestn</a>他帮了超多有用的东西（快去关注他）<br>4.开发者之所以没有限制传包，那是因为合集交流群人太少，没人传（<br>5.关卡《陨石危机》其实来自原作者利用AI制作的长视频片头曲，<a href="https://b23.tv/6AlKd5o">👀看看</a><br></div>
     </div>
-    
- <div class="card" data-series="barbecue" data-search-content="合集视频">
+
+    <div class="card" data-series="barbecue" data-search-content="合集视频">
         <h2 class="card-title">合集视频</h2>
         <div class="button-grid half">
             <a href="https://v.douyin.com/zah9tZS9wYw/ " target="_blank" class="btn">1.0.0</a>
-           </div>
+        </div>
         <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
     </div>
-
     <div class="card" data-series="barbecue" data-search-content="关注作者 驍燁 哔哩哔哩 抖音 DLRS同人网 同人群 chinadlrs">
         <h2 class="card-title">关注作者</h2>
         <div class="button-grid three">
@@ -588,7 +682,6 @@
         </div>
         <div class="hint-text"><i>关注</i> 点击直达作者B站/抖音/DLRS个人主页</div>
     </div>
-
     <div class="card" data-series="barbecue" data-search-content="下载游戏 Windows下载 百度网盘 提取码 XKZY 安卓下载 暂不支持 iOS HarmonyOS">
         <h2 class="card-title">下载游戏</h2>
         <div class="button-grid half">
@@ -612,24 +705,23 @@
         </div>
     </div>
 
-    <!-- 42Line 区块 -->
+    <!-- 42Line -->
     <h1 class="hero-title" data-series="42line">《42Line》</h1>
     <div class="hero-sub" data-series="42line">Dancing Line Fanmade —42Line</div>
     <div class="card" data-series="42line" data-search-content="42Line 42 line 合集简介 42号 Arphros 内测 2026年4月2日 2月28日">
-        <h2 class="card-title">合集简介—Arphros</h2>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2>
         <div class="intro-text">《42 line》是跳舞的线社区玩家“42号”在Arphros制作的一系列关卡合集，目前正在内测中，特别感谢所有内测人员，将于2026年的4月2日前后发布。</div>
         <div class="author-info"><span>作者：42号- （制作人）</span></div>
     </div>
     <div class="card" data-series="42line" data-search-content="42Line 更新日志 暂无"><h2 class="card-title">更新日志</h2><div class="intro-text">暂无</div></div>
-    
-  <div class="card" data-series="42line" data-search-content="冷知识">
+    <div class="card" data-series="42line" data-search-content="冷知识">
         <h2 class="card-title">冷知识</h2>
         <div class="intro-text">1.其实此合集的乌托邦本来是完整的，但是被删减了<br>2.按真正的制作顺序来讲，第一关其实是“饭转是皆”（<br></div>
     </div>
-    
- <div class="card" data-series="42line" data-search-content="42Line合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
-
-
+    <div class="card" data-series="42line" data-search-content="42Line合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
     <div class="card" data-series="42line" data-search-content="关注作者 42号 哔哩哔哩 抖音">
         <h2 class="card-title">关注作者</h2>
         <div class="button-grid half">
@@ -638,7 +730,6 @@
         </div>
         <div class="hint-text"><i>关注</i> 点击直达作者B站/抖音主页</div>
     </div>
-
     <div class="card" data-series="42line" data-search-content="下载游戏 内测暂未开放 arphros 不支持iOS HarmonyOS 内测 勿外传">
         <h2 class="card-title">下载游戏</h2>
         <div class="button-grid full"><button class="btn" onclick="alert('目前还在进行内测，暂无游玩版本')">内测暂未开放</button></div>
@@ -652,39 +743,50 @@
         <div class="hint-text">因作者设置，该群请自行到QQ内搜索。点击按钮复制群号。</div>
     </div>
 
-    <!-- 引导线 区块 -->
+    <!-- 引导线 -->
     <h1 class="hero-title" data-series="guideline">《引导线》</h1>
-    <div class="hero-sub" data-series="guideline">Dancing Line Fanmade —GuideLine</div>
+    <div class="hero-sub" data-series="guideline">Dancing Line Fanmade —GuideLine</div> 
+     <div class="card" data-series="guideline" data-search-content="图片">
+        <h2 class="card-title">精美图片</h2>
+  <img src="https://xiaoye6661234.github.io/fo/gl.png"  
+   width="1280" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片1">
+     <br>
+        <img src="https://xiaoye6661234.github.io/fo/gl1.png" 
+     width="1280" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片2">
+     <div class="hint-text"><i>图片</i>精美图片</div>
+    </div>
     <div class="card" data-series="guideline" data-search-content="引导线 Guideline MaxLine lnchestn 合集简介 音乐节奏 精美 玩法">
-        <h2 class="card-title">合集简介—Unity</h2>
+        <h2 class="card-title">合集简介—Unity<img src="https://xiaoye6661234.github.io/fo/unity.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2>
         <div class="intro-text">引导🗺线🧵是一看👀非常🔝有趣😍的音乐🎵节奏🎶游戏🎮，游戏🎮引导🗺线🧵(Max🔝Line🧵)内⤵️拥有☑️超多🔢音乐🎵资源和各种🔣难度的关卡🆒，玩家👤可以自由😇挑战各种🔣关卡，跟随节奏🎶完美完成挑战。引导🗺线🧵(Max🔝Line🧵)的乐曲🎵非常多，玩家👤需要通过跟着🚶节奏🎶点击👆屏幕，控制🎮线条🧵转向⤴️，避开✖️障碍物◼️来通过🚶关卡。引导🗺线🧵(Max🔝Line🧵)最新版🆕采用的是比较精美🎨的颜色🌈主题风格，而且玩法🎮丰富程度要高于🔝原版。</div>
         <div class="author-info"><span>作者：lnchestn（制作人）</span></div>
     </div>
     <div class="card" data-series="guideline" data-search-content="引导线 更新日志 1.0.6 关卡列表 海螺我的 东北胜景 宁静之地 Faded 引导线 通关风暴挑战 百度网盘 LNCH 苹果无">
         <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">引导线（1.0.7）更新明细：<br>·加入极速版玩法<br>·优化自定义视角逻辑
-·触屏版自定义视角实装于大部分关卡<br>·修复按空格手不会消失的特性<br>·大副修改东北胜景判定<br>·优化了多个关卡的碰撞<br>·调整了一些路线<br>·回归FO超级简单版原版（线尾版）<br>·优化死亡判定机制<br>·删除东北胜景开头的蓝键彩蛋，将其移至关卡“引导线”中<br>·调整了一些UI<br>·增加tips<br>·其他微调<br>修bug（东北减途无法打开，通关风暴挑战会莫名死亡）<br></div>
+        <div class="intro-text">引导线（1.0.7）更新明细：<br>·加入极速版玩法<br>·优化自定义视角逻辑 ·触屏版自定义视角实装于大部分关卡<br>·修复按空格手不会消失的特性<br>·大副修改东北胜景判定<br>·优化了多个关卡的碰撞<br>·调整了一些路线<br>·回归FO超级简单版原版（线尾版）<br>·优化死亡判定机制<br>·删除东北胜景开头的蓝键彩蛋，将其移至关卡“引导线”中<br>·调整了一些UI<br>·增加tips<br>·其他微调<br>修bug（东北减途无法打开，通关风暴挑战会莫名死亡）<br></div>
     </div>
-      
-  <div class="card" data-series="guideline" data-search-content="冷知识">
+    <div class="card" data-series="guideline" data-search-content="冷知识">
         <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">1.《引导线》其实来自作者意外看到的一个<a href="https://m.youxiniao.com/game/yeeody/">🔗链接</a><strong>（仅为浏览，请不要下载此链接内任何游戏安装包，如后续有恶意病毒等，后果自负）</strong>，链接内，上传者上传了MaxLine探索版本的安卓安装包，可是，上传者将它翻译成了“引导线”，并且还有一段神秘的介绍，因过于神秘，所以开发者就制作了一个关卡“引导线”，后续与其他关卡组成的合集也以此命名。<a href="https://b23.tv/zFQ8DCl">👀看看</a><br>2.引导线（Guideline）因“guide”中文拼音为“贵的”，所以别名“贵的里呢”<br>3..因为B站动态的审核机制曾经误将1.0.2更新动态里面的QQ群判定是违规推广导致动态被删除，所以作者就在动态里面加了这样一句话“（这个不是违规推广。引导线不能领现金。审核何意味）”<a href="https://b23.tv/tHAF2ne">👆点我跳转</a><br>4.关卡《通关风暴挑战》里面音乐歌词，你可以看出是哪些名场面吗？<br>5.合集有一个困扰了作者很久的问题，就是关卡开始时的“飞线”（第一个线尾被顶起），作者反复尝试修改但是无果，有一次用一种较为笨拙的修改成功了，但是因为其引发了其他bug所以还是放弃了<a href="https://b23.tv/7Vw3ZBr">👆点我跳转</a><br>6..引导线合集使用的是冰焰模板3.0.1，后面新关卡想要转至冰焰模板4，可是因为作者技术不足，而冰4代码较为复杂，导致最后还是没有转。<a href="https://b23.tv/IjzroNH">👆点我跳转</a><br>7.关卡《东北胜景》里面有很多彩蛋，例如，新版本开局直走会触发飞跃，然后飞向天空，到达神秘的平台，平台有个皇冠，然后满是“猫猫猫猫...”<br>8.关卡《海螺我的》谐音“Hello World”，关卡内容无实际意义，是合集作者入门DLFM的作品，因具有纪念意义故保留至合集<br>
-       </div>
+        <div class="intro-text">1.《引导线》其实来自作者意外看到的一个<a href="https://m.youxiniao.com/game/yeeody/">🔗链接</a><strong>（仅为浏览，请不要下载此链接内任何游戏安装包，如后续有恶意病毒等，后果自负）</strong>，链接内，上传者上传了MaxLine探索版本的安卓安装包，可是，上传者将它翻译成了“引导线”，并且还有一段神秘的介绍，因过于神秘，所以开发者就制作了一个关卡“引导线”，后续与其他关卡组成的合集也以此命名。<a href="https://b23.tv/zFQ8DCl">👀看看</a><br>2.引导线（Guideline）因“guide”中文拼音为“贵的”，所以别名“贵的里呢”<br>3..因为B站动态的审核机制曾经误将1.0.2更新动态里面的QQ群判定是违规推广导致动态被删除，所以作者就在动态里面加了这样一句话“（这个不是违规推广。引导线不能领现金。审核何意味）”<a href="https://b23.tv/tHAF2ne">👆点我跳转</a><br>4.关卡《通关风暴挑战》里面音乐歌词，你可以看出是哪些名场面吗？<br>5.合集有一个困扰了作者很久的问题，就是关卡开始时的“飞线”（第一个线尾被顶起），作者反复尝试修改但是无果，有一次用一种较为笨拙的修改成功了，但是因为其引发了其他bug所以还是放弃了<a href="https://b23.tv/7Vw3ZBr">👆点我跳转</a><br>6..引导线合集使用的是冰焰模板3.0.1，后面新关卡想要转至冰焰模板4，可是因为作者技术不足，而冰4代码较为复杂，导致最后还是没有转。<a href="https://b23.tv/IjzroNH">👆点我跳转</a><br>7.关卡《东北胜景》里面有很多彩蛋，例如，新版本开局直走会触发飞跃，然后飞向天空，到达神秘的平台，平台有个皇冠，然后满是“猫猫猫猫...”<br>8.关卡《海螺我的》谐音“Hello World”，关卡内容无实际意义，是合集作者入门DLFM的作品，因具有纪念意义故保留至合集<br></div>
     </div>
-    
-<div class="card" data-series="guideline" data-search-content="合集视频">
+    <div class="card" data-series="guideline" data-search-content="合集视频">
         <h2 class="card-title">合集视频</h2>
         <div class="button-grid half">
             <a href="https://www.bilibili.com/video/BV1EYyPBpE1a/?spm_id_from=333.1387.homepage.video_card.click&vd_source=5e3fa20254cc9fb698b75506dafb582d" target="_blank" class="btn">东北胜景</a>
-           </div>
- <div class="button-grid half">
+        </div>
+        <div class="button-grid half">
             <a href="https://www.bilibili.com/video/BV1kFycB7EMK/?spm_id_from=333.1387.homepage.video_card.click&vd_source=5e3fa20254cc9fb698b75506dafb582d" target="_blank" class="btn">FO轮回</a>
-           </div>
-
+        </div>
         <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
     </div>
-
-
     <div class="card" data-series="guideline" data-search-content="关注作者 lnchestn 哔哩哔哩">
         <h2 class="card-title">关注作者</h2>
         <div class="button-grid three"><a href="https://space.bilibili.com/3546947665266985?spm_id_from=333.337.0.0" target="_blank" class="btn">哔哩哔哩</a></div>
@@ -702,24 +804,23 @@
         <div class="button-grid full"><a href="https://qm.qq.com/q/30tQCnIJJe" target="_blank" class="btn">加入官方QQ群</a></div>
     </div>
 
-    <!-- MazeLine 区块 -->
+    <!-- MazeLine -->
     <h1 class="hero-title" data-series="mazeline">《MazeLine》</h1>
     <div class="hero-sub" data-series="mazeline">Dancing Line Fanmade —MazeLine</div>
     <div class="card" data-series="mazeline" data-search-content="MaveLine MazeLine cloverglow 冰焰模版430 合集简介">
-        <h2 class="card-title">合集简介—Unity</h2><div class="intro-text">MazeLine是一款cloverglow使用冰焰模版430改制作的跳舞的线饭制游戏，已停更</div>
+        <h2 class="card-title">合集简介—Unity<img src="https://xiaoye6661234.github.io/fo/unity.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">MazeLine是一款cloverglow使用冰焰模版430改制作的跳舞的线饭制游戏，已停更</div>
         <div class="author-info"><span>作者：FlowStudio—cloverglow</span></div>
     </div>
     <div class="card" data-series="mazeline" data-search-content="关注作者 cloverglow 哔哩哔哩">
         <h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://space.bilibili.com/3546864318155304?spm_id_from=333.337.0.0" target="_blank" class="btn">哔哩哔哩</a></div>
     </div>
-      
-  <div class="card" data-series="mazeline" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
+    <div class="card" data-series="mazeline" data-search-content="冷知识">
+        <h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div>
     </div>
-    
- <div class="card" data-series="mazeline" data-search-content="mazeine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
-
+    <div class="card" data-series="mazeline" data-search-content="mazeine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
     <div class="card" data-series="mazeline" data-search-content="MazeLine 下载游戏 暂无游玩版本 暂未公开">
         <h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn" onclick="alert('暂无游玩版本')">暂无</button></div>
     </div>
@@ -729,26 +830,25 @@
     <div class="card" data-series="mazeline" data-search-content="详 情 网 站 cloverglow.mazeline flowstudio828.github.io">
         <h2 class="card-title">详情网站</h2><div class="button-grid full"><a href="https://flowstudio828.github.io/cloverglow.mazeline/" target="_blank" class="btn">查看</a></div>
     </div>
-    
-  <h1 class="hero-title" data-series="WebLine">《WebLine》</h1>
+
+    <!-- WebLine -->
+    <h1 class="hero-title" data-series="WebLine">《WebLine》</h1>
     <div class="hero-sub" data-series="WebLine">Dancing Line Fanmade — WebLine</div>
     <div class="card" data-series="WebLine" data-search-content="合集简介 作者 驍燁 总设计 停更 2026">
-        <h2 class="card-title">合集简介—Html</h2>
+        <h2 class="card-title">合集简介—Html<img src="https://xiaoye6661234.github.io/fo/html.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2>
         <div class="intro-text">《WebLine》是驍燁在2025年12月份用AI制作的html文件跳舞的线同人游戏，游戏占用内存很小（200kb左右）且可玩性较小，现在仅可通过加QQ群下载（因为服务器部署有问题），感兴趣的可以下载用浏览器打开玩玩，目前停更</div>
         <div class="author-info"><span>作者：驍燁 （总设计）</span></div>
     </div>
     <div class="card" data-series="WebLine" data-search-content="网线 WebLine">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">停更中...</div>
+        <h2 class="card-title">更新日志</h2><div class="intro-text">停更中...</div>
     </div>
     <div class="card" data-series="WebLine" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">1.《WebLine》直译《网线》由<a href="https://space.bilibili.com/3546947665266985?spm_id_from=333.337.0.0">lnchestn</a>取名<br></div>
+        <h2 class="card-title">冷知识</h2><div class="intro-text">1.《WebLine》直译《网线》由<a href="https://space.bilibili.com/3546947665266985?spm_id_from=333.337.0.0">lnchestn</a>取名<br></div>
     </div>
-    
- <div class="card" data-series="WebLine" data-search-content="WebLine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
-
-
+    <div class="card" data-series="WebLine" data-search-content="WebLine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
     <div class="card" data-series="WebLine" data-search-content="关注作者 驍燁 哔哩哔哩 抖音 DLRS同人网 同人群 chinadlrs">
         <h2 class="card-title">关注作者</h2>
         <div class="button-grid three">
@@ -758,11 +858,10 @@
         </div>
         <div class="hint-text"><i>关注</i> 点击直达作者B站/抖音/DLRS个人主页</div>
     </div>
-
     <div class="card" data-series="WebLine" data-search-content="下载游戏 安卓下载 暂不支持">
         <h2 class="card-title">下载游戏</h2>
         <div class="button-grid half">
-          <button class="btn android" onclick="alert('请加入QQ群下载')">下载</button>
+            <button class="btn android" onclick="alert('请加入QQ群下载')">下载</button>
         </div>
         <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
     </div>
@@ -773,529 +872,586 @@
         </div>
         <div class="hint-text">群内交流饭制、获取最新进度</div>
     </div>
-    
-      <h1 class="hero-title" data-series="timeline">《Time Line》</h1>
+
+    <!-- Time Line -->
+    <h1 class="hero-title" data-series="timeline">《Time Line》</h1>
     <div class="hero-sub" data-series="timeline">Dancing Line Fanmade — Time Line</div>
     <div class="card" data-series="timeline" data-search-content="时间线 timeline">
-        <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">家在此合集里命名为时间追逐者，通过无数的关卡，找到其中的那个“时间”，此合集需要Arphros游玩，所以你需要Arphros才能游玩此合集，“敬请期待″
-</div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2>
+        <div class="intro-text">玩家在此合集里命名为时间追逐者，通过无数的关卡，找到其中的那个“时间”，此合集需要Arphros游玩，所以你需要Arphros才能游玩此合集，“敬请期待″</div>
         <div class="author-info"><span>作者：Time Line官方</span></div>
     </div>
     <div class="card" data-series="timeline" data-search-content="timeline QQ群">
         <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">Time Line v1.1.5<br>新关卡:<br>Song of the Journey
-作者:Fbxwz_91<br>
-Poolcore Ⅱ
-作者:zepyhr<br>
-开端Beginning
-作者:小合<br>
-</div>
+        <div class="intro-text">Time Line v1.1.5<br>新关卡:<br>Song of the Journey 作者:Fbxwz_91<br>Poolcore Ⅱ 作者:zepyhr<br>开端Beginning 作者:小合<br></div>
     </div>
-      <div class="card" data-series="timeline" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
+    <div class="card" data-series="timeline" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
     <div class="card" data-series="timeline" data-search-content="timeline">
         <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://b23.tv/KpALglv" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
+        <div class="button-grid three"><a href="https://b23.tv/KpALglv" target="_blank" class="btn">哔哩哔哩</a></div>
         <div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div>
     </div>
-<div class="card" data-series="timeline" data-search-content="合集视频">
+    <div class="card" data-series="timeline" data-search-content="合集视频">
         <h2 class="card-title">合集视频</h2>
-        <div class="https://b23.tv/V8QE73h" target="_blank" class="btn">Song of Journey</a>
-           </div>
- <div class="button-grid half">
-            <a href=" https://b23.tv/bvTfAb5" target="_blank" class="btn">Poolcore</a>
-           </div>
-
+        <div class="button-grid half"><a href="https://b23.tv/V8QE73h" target="_blank" class="btn">Song of Journey</a></div>
+        <div class="button-grid half"><a href=" https://b23.tv/bvTfAb5" target="_blank" class="btn">Poolcore</a></div>
         <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
     </div>
     <div class="card" data-series="timeline" data-search-content="下载游戏 安卓下载 暂不支持">
         <h2 class="card-title">下载游戏</h2>
-        <div class="button-grid half">
-          <button class="btn android" onclick="alert('请加入QQ群下载')">下载</button>
-        </div>
+        <div class="button-grid half"><button class="btn android" onclick="alert('请加入QQ群下载')">下载</button></div>
         <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
     </div>
-     <div class="card" data-series="timeline" data-search-content="玩家社群 复制QQ群号 277389312">
+    <div class="card" data-series="timeline" data-search-content="玩家社群 复制QQ群号 277389312">
         <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="277389312">复制QQ群号 (277389312)</button>
-        </div>
+        <div class="button-grid full"><button class="btn copy-qq-btn" data-qq="277389312">复制QQ群号 (277389312)</button></div>
         <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        
     </div>
- <h1 class="hero-title" data-series="etherealline">《Ethereal Line》</h1>
+
+    <!-- Ethereal Line -->
+    <h1 class="hero-title" data-series="etherealline">《Ethereal Line》</h1>
     <div class="hero-sub" data-series="etherealline">Dancing Line Fanmade — Ethereal Line</div>
     <div class="card" data-series="etherealline" data-search-content="空灵之线">
-        <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">《Ethereal Line》（空灵之线）是由Ethereal Studio以《Arphros》为蓝本制作的一款饭制合集
-
-</div>
-        <div class="author-info"><span>作者：Ethereal_Zepyhr
-</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">《Ethereal Line》（空灵之线）是由Ethereal Studio以《Arphros》为蓝本制作的一款饭制合集</div>
+        <div class="author-info"><span>作者：Ethereal_Zepyhr</span></div>
     </div>
-    <div class="card" data-series="etherealline" data-search-content="空灵之线 QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">暂无<br>
-</div>
-    </div>
-      <div class="card" data-series="etherealline" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
-    
-
+    <div class="card" data-series="etherealline" data-search-content="空灵之线 QQ群"><h2 class="card-title">更新日志</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="etherealline" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
     <div class="card" data-series="etherealline" data-search-content="作者 开发者 空灵之线 哔哩哔哩">
-        <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://b23.tv/DtB189V
-" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div>
+        <h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/DtB189V" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div>
     </div>
-<div class="card" data-series="etherealline" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-        <div class="button-grid half">
-            <a href=
-        "https://b23.tv/nvfQ1lr" target="_blank" class="btn">校园</a>
-           </div>
- <div class="button-grid half">
-            <a href=" https://b23.tv/lvpAH68" target="_blank" class="btn">Dead Soul </a>
-           </div>
-
-        <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
+    <div class="card" data-series="etherealline" data-search-content="合集视频">
+        <h2 class="card-title">合集视频</h2><div class="button-grid half"><a href="https://b23.tv/nvfQ1lr" target="_blank" class="btn">校园</a></div><div class="button-grid half"><a href=" https://b23.tv/lvpAH68" target="_blank" class="btn">Dead Soul </a></div><div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
     </div>
     <div class="card" data-series="etherealline" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-        <div class="button-grid half">
-          <button class="btn android" onclick="alert('下载方式:进入QQ群获取游玩包及工程包（收录关卡工程包会经过原作者同意公开）QQ群:198274639')">下载</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
+        <h2 class="card-title">下载游戏</h2><div class="button-grid half"><button class="btn android" onclick="alert('下载方式:进入QQ群获取游玩包及工程包（收录关卡工程包会经过原作者同意公开）QQ群:198274639')">下载</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
     </div>
-     <div class="card" data-series="etherealline" data-search-content="玩家社群 复制QQ群号 198274639">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="198274639">复制QQ群号 (198274639)</button>
-        </div>
-        <div class="hint-text">下载方式:进入QQ群获取游玩包及工程包（收录关卡工程包会经过原作者同意公开）QQ群:198274639
-</div>
+    <div class="card" data-series="etherealline" data-search-content="玩家社群 复制QQ群号 198274639">
+        <h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="198274639">复制QQ群号 (198274639)</button></div><div class="hint-text">下载方式:进入QQ群获取游玩包及工程包（收录关卡工程包会经过原作者同意公开）QQ群:198274639</div>
     </div>
-        
- <h1 class="hero-title" data-series="cuangyou">《创游之线2026》</h1>
+
+    <!-- 创游之线 -->
+    <h1 class="hero-title" data-series="cuangyou">《创游之线2026》</h1>
     <div class="hero-sub" data-series="cuangyou">Dancing Line Fanmade — Julian's Editor Levels Collection 2026</div>
     <div class="card" data-series="cuangyou" data-search-content="创游之线 cuangyou">
-        <h2 class="card-title">合集简介—创游世界</h2>
-        <div class="intro-text">合集全名：Dancing Line Fan-made Julian's Editor Levels Collection 2026<br>中文名：跳舞的线创游世界版本饭制关卡合集2026<br>中文简称：创游之线2026<br>创游中的部分关卡支持复活的舞线饭制合集<br>本合集共36关（含2个非正式关卡和一个联合关卡）<br>你可以在里面游玩到各种各样精彩的关卡！<br>Tip：国家公祭日（12月13日）停服1天<br>新关正在制作中，敬请期待~<br>
-</div> 
- <div class="author-info"><span>作者：Costan余弦正切、碧星熠熠Z-317、白栢mr、大豆子 等
-</span>
-</div>
+        <h2 class="card-title">合集简介—创游世界<img src="https://xiaoye6661234.github.io/fo/make.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">合集全名：Dancing Line Fan-made Julian's Editor Levels Collection 2026<br>中文名：跳舞的线创游世界版本饭制关卡合集2026<br>中文简称：创游之线2026<br>创游中的部分关卡支持复活的舞线饭制合集<br>本合集共36关（含2个非正式关卡和一个联合关卡）<br>你可以在里面游玩到各种各样精彩的关卡！<br>Tip：国家公祭日（12月13日）停服1天<br>新关正在制作中，敬请期待~<br></div> 
+        <div class="author-info"><span>作者：Costan余弦正切、碧星熠熠Z-317、白栢mr、大豆子 等</span></div>
     </div>
-     <div class="card" data-series="cuangyou" data-search-content="创游">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">Version:2026.1.25.0更新公告：微调部分关卡<br>
-</div>
+    <div class="card" data-series="cuangyou" data-search-content="创游"><h2 class="card-title">更新日志</h2><div class="intro-text">Version:2026.1.25.0更新公告：微调部分关卡<br></div></div>
+    <div class="card" data-series="cuangyou" data-search-content="mazeine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无</div></div>
+    <div class="card" data-series="cuangyou" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">新关卡的制作过程是→铺路→布景→调整→完成→加入选关→发布<br></div></div>
+    <div class="card" data-series="cuangyou" data-search-content="作者 开发者">
+        <h2 class="card-title">游戏游玩：创游平台</h2><div class="button-grid three"><a href="https://s.hortorinteractive.com/eZVxQb" target="_blank" class="btn">创游世界</a></div><div class="hint-text"><i>查看</i> 点击直达创游主页</div>
     </div>
-     <div class="card" data-series="cuangyou" data-search-content="mazeine合集视频 暂无"><h2 class="card-title">合集视频</h2><div class="intro-text">暂无
-     </div></div>
-      <div class="card" data-series="cuangyou" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">新关卡的制作过程是→铺路→布景→调整→完成→加入选关→发布<br></div>
+    <div class="card" data-series="cuangyou" data-search-content="玩家社群 复制QQ群号 198274639">
+        <h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="936533839">复制QQ群号 (936533839)</button></div><div class="hint-text">下载方式:进入QQ群谈论</div>
     </div>
-     <div class="card" data-series="cuangyou" data-search-content="作者 开发者">
-        <h2 class="card-title">游戏游玩：创游平台</h2>
-        <div class="button-grid three">
-            <a href="https://s.hortorinteractive.com/eZVxQb" target="_blank" class="btn">
-创游世界</a>
-        </div>
-        <div class="hint-text"><i>查看</i> 点击直达创游主页</div>
-    </div>
-     <div class="card" data-series="cuangyou" data-search-content="玩家社群 复制QQ群号 198274639">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="936533839">复制QQ群号 (936533839)</button>
-        </div>
-        <div class="hint-text">下载方式:进入QQ群谈论
-</div>
-    </div>
-        
-         <h1 class="hero-title" data-series="paint">《Paint Realm》</h1>
+
+    <!-- Paint Realm (第一次) -->
+    <h1 class="hero-title" data-series="paint">《Paint Realm》</h1>
     <div class="hero-sub" data-series="paint">Dancing Line Fanmade — Paint Realm </div>
     <div class="card" data-series="paint" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">Paint Realm是由Realm Studio以跳舞的线饭制蓝本Arphros制作的一款跳舞的线饭制社交性合集。游戏以大量关卡为特色。该合集由2024年11月12日建成。</div>
-        <div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">Paint Realm是由Realm Studio以跳舞的线饭制蓝本Arphros制作的一款跳舞的线饭制社交性合集。游戏以大量关卡为特色。该合集由2024年11月12日建成。</div><div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
     </div>
     <div class="card" data-series="paint" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">1.新增关卡：
-英语 – Realm
-2.收录关卡：
-Wasted – L.chen
-Poolcore – Ethereal Studio
-石人之谜 – RS轮胎</div>
+        <h2 class="card-title">更新日志</h2><div class="intro-text">1.新增关卡：英语 – Realm 
+2.收录关卡：Wasted – L.chen Poolcore – Ethereal Studio 石人之谜 – RS轮胎</div>
     </div>
-         <div class="card" data-series="paint" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
-    <div class="card" data-series="paint" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://b23.tv/D0HTsyt" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div>
-    </div>
-<div class="card" data-series="paint" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-        <div class="button-grid half">
-            <a href="https://b23.tv/1etjiM1" target="_blank" class="btn">PV</a>
-           </div>
- <div class="button-grid half">
-            <a href="https://b23.tv/eS41Old" target="_blank" class="btn">黑白秘境</a>
-           </div>
+    <div class="card" data-series="paint" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="paint" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/D0HTsyt" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div></div>
+    <div class="card" data-series="paint" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid half"><a href="https://b23.tv/1etjiM1" target="_blank" class="btn">PV</a></div><div class="button-grid half"><a href="https://b23.tv/eS41Old" target="_blank" class="btn">黑白秘境</a></div><div class="hint-text"><i>视频</i> 点击直达合集精美视频</div></div>
+    <div class="card" data-series="paint" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid half"><button class="btn android" onclick="alert('请加入QQ群下载')">下载</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="paint" data-search-content="玩家社群 复制QQ群号 967235342"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="967235342">复制QQ群号 (967235342)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
 
-        <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
-    </div>
-    <div class="card" data-series="paint" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-        <div class="button-grid half">
-          <button class="btn android" onclick="alert('请加入QQ群下载')">下载</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="paint" data-search-content="玩家社群 复制QQ群号 967235342">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="967235342">复制QQ群号 (967235342)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-                 
+    <!-- 太难Line -->
     <h1 class="hero-title" data-series="tainan">《太难Line》</h1>
     <div class="hero-sub" data-series="tainan">Dancing Line Fanmade — So Difficult Line </div>
-    <div class="card" data-series="paint" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—蛋仔派对</h2>
-        <div class="intro-text">《太难line》是由主制作“我太难了eAPB”以《蛋仔派对》为蓝本的饭制合集，2026年2月份，v1.0.0版本已上线。目前仍在活跃更新中（虽然关卡产出较慢）。</div>
-        <div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
+    <div class="card" data-series="tainan" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
+        <h2 class="card-title">合集简介—蛋仔派对<img src="https://xiaoye6661234.github.io/fo/egg.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">《太难line》是由主制作“我太难了eAPB”以《蛋仔派对》为蓝本的饭制合集，2026年2月份，v1.0.0版本已上线。目前仍在活跃更新中（虽然关卡产出较慢）。</div><div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
     </div>
     <div class="card" data-series="tainan" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">- 版本：太难line关卡目录 V1.0.0
-        
-原创关卡：
-1.时光之始（lv1 新手），作者：我太难了eAPB
-2.青空（lv2 简单），作者：我太难了eAPB
-3.Daylight(梦想)（lv3 普通），作者：我太难了eAPB
-4.新春（lv4 困难），作者：我太难了eAPB&乜實
-5.深渊（lv5 反人类），作者：我太难了eAPB
-
+        <h2 class="card-title">更新日志</h2><div class="intro-text">- 版本：太难line关卡目录 V1.0.0 原创关卡：
+1.时光之始（lv1 新手），作者：我太难了eAPB 
+2.青空（lv2 简单），作者：我太难了eAPB 
+3.Daylight(梦想)（lv3 普通），作者：我太难了eAPB 
+4.新春（lv4 困难），作者：我太难了eAPB&乜實 
+5.深渊（lv5 反人类），作者：我太难了eAPB 
 收录关卡：
-1.钻石，作者：砖块鹿就
-2.庙会，作者：乜實
-3.黄金时分，作者：乜實
-4.Sypha，作者：乜實&DL大神&不安的小发&咕.呱.咕.呱
+1.钻石，作者：砖块鹿就 
+2.庙会，作者：乜實 
+3.黄金时分，作者：乜實 
+4.Sypha，作者：乜實&DL大神&不安的小发&咕.呱.咕.呱 
 5.反转世界，作者：乜實</div>
     </div>
-         <div class="card" data-series="tainan" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
+    <div class="card" data-series="tainan" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
     <div class="card" data-series="tainan" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://v.douyin.com/c4AjkvQiA" target="_blank" class="btn">抖音</a>
-        </div> 
-         <div class="button-grid three">
-            <a href="https://b23.tv/mAKKhGP" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达作者B站/抖音个人主页</div>
+        <h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://v.douyin.com/c4AjkvQiA" target="_blank" class="btn">抖音</a></div><div class="button-grid three"><a href="https://b23.tv/mAKKhGP" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达作者B站/抖音个人主页</div>
     </div>
-<div class="card" data-series="tainan" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-        <div class="button-grid half">
-            <a href="https://b23.tv/xqC8Vpt" target="_blank" class="btn">PV</a>
-           </div>
-          
-        <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
-    </div>
-    
-    <div class="card" data-series="tainan" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-        <div class="button-grid half">
-            <a href="- http://party.163.com/m/index.html" target="_blank" class="btn">下载蛋仔派对游玩</a>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="tainan" data-search-content="玩家社群 复制QQ群号 904443183">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="904443183">复制QQ群号 (904443183)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-               <h1 class="hero-title" data-series="paint">《Paint Realm》</h1>
+    <div class="card" data-series="tainan" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid half"><a href="https://b23.tv/xqC8Vpt" target="_blank" class="btn">PV</a></div><div class="hint-text"><i>视频</i> 点击直达合集精美视频</div></div>
+    <div class="card" data-series="tainan" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid half"><a href="http://party.163.com/m/index.html" target="_blank" class="btn">下载蛋仔派对游玩</a></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="tainan" data-search-content="玩家社群 复制QQ群号 904443183"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="904443183">复制QQ群号 (904443183)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
+
+    <!-- Paint Realm 第二次 (重复，原样保留) -->
+    <h1 class="hero-title" data-series="paint">《Paint Realm》</h1>
     <div class="hero-sub" data-series="paint">Dancing Line Fanmade — Paint Realm </div>
     <div class="card" data-series="paint" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">Paint Realm是由Realm Studio以跳舞的线饭制蓝本Arphros制作的一款跳舞的线饭制社交性合集。游戏以大量关卡为特色。该合集由2024年11月12日建成。</div>
-        <div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">Paint Realm是由Realm Studio以跳舞的线饭制蓝本Arphros制作的一款跳舞的线饭制社交性合集。游戏以大量关卡为特色。该合集由2024年11月12日建成。</div><div class="author-info"><span>作者：Realm Studio（总设计）</span></div>
     </div>
     <div class="card" data-series="paint" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">1.新增关卡：
-英语 – Realm
-2.收录关卡：
-Wasted – L.chen
-Poolcore – Ethereal Studio
-石人之谜 – RS轮胎</div>
+        <h2 class="card-title">更新日志</h2><div class="intro-text">1.新增关卡：英语 – Realm 2.收录关卡：Wasted – L.chen Poolcore – Ethereal Studio 石人之谜 – RS轮胎</div>
     </div>
-         <div class="card" data-series="paint" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
-    <div class="card" data-series="paint" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://b23.tv/D0HTsyt" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div>
-    </div>
-<div class="card" data-series="paint" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-        <div class="button-grid half">
-            <a href="https://b23.tv/1etjiM1" target="_blank" class="btn">PV</a>
-           </div>
- <div class="button-grid half">
-            <a href="https://b23.tv/eS41Old" target="_blank" class="btn">黑白秘境</a>
-           </div>
+    <div class="card" data-series="paint" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="paint" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/D0HTsyt" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达作者B站个人主页</div></div>
+    <div class="card" data-series="paint" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid half"><a href="https://b23.tv/1etjiM1" target="_blank" class="btn">PV</a></div><div class="button-grid half"><a href="https://b23.tv/eS41Old" target="_blank" class="btn">黑白秘境</a></div><div class="hint-text"><i>视频</i> 点击直达合集精美视频</div></div>
+    <div class="card" data-series="paint" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid half"><button class="btn android" onclick="alert('请加入QQ群下载')">下载</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="paint" data-search-content="玩家社群 复制QQ群号 967235342"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="967235342">复制QQ群号 (967235342)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
 
-        <div class="hint-text"><i>视频</i> 点击直达合集精美视频</div>
-    </div>
-    <div class="card" data-series="paint" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-        <div class="button-grid half">
-          <button class="btn android" onclick="alert('请加入QQ群下载')">下载</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="paint" data-search-content="玩家社群 复制QQ群号 967235342">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="967235342">复制QQ群号 (967235342)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-                 
+    <!-- KunLine -->
     <h1 class="hero-title" data-series="kunline">《KunLine》</h1>
     <div class="hero-sub" data-series="kunline">Dancing Line Fanmade — KunLine </div>
     <div class="card" data-series="kunline" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">此合集为焜焜之焚豪（主制作）以Arphros为基础制作的关卡合集。合集关分为三个分支，主线关卡合集、答辩关卡合集以及联合关卡合集。</div>
-        <div class="author-info"><span>作者：坤坤之焚豪（总设计）</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">此合集为焜焜之焚豪（主制作）以Arphros为基础制作的关卡合集。合集关分为三个分支，主线关卡合集、答辩关卡合集以及联合关卡合集。</div><div class="author-info"><span>作者：坤坤之焚豪（总设计）</span></div>
     </div>
     <div class="card" data-series="kunline" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">1.神罚改动：改动摄像头的运镜，增加隐形路，增加滤镜。
-2.增加了一条隐形路（观察1场景的云）。</div>
+        <h2 class="card-title">更新日志</h2><div class="intro-text">1.神罚改动：改动摄像头的运镜，增加隐形路，增加滤镜。2.增加了一条隐形路（观察1场景的云）。</div>
     </div>
-         <div class="card" data-series="kunline" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
-    <div class="card" data-series="kunline" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-         <div class="button-grid three">
-            <a href="https://b23.tv/rp0hw8P" target="_blank" class="btn">哔哩哔哩</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达作者B站/抖音个人主页</div>
-    </div>
-<div class="card" data-series="kunline" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-        <div class>暂无</a>
-           </div>
-        <div class="hint-text"><i>视频</i> 暂无</div>
-    </div>
-    
-    <div class="card" data-series="kunline" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-       <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="966271706">复制QQ群号 (966271706)</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="kunline" data-search-content="玩家社群 复制QQ群号 904443183">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="966271706">复制QQ群号 (966271706)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-        
-            <h1 class="hero-title" data-series="cube">《Cube-ALC》</h1>
+    <div class="card" data-series="kunline" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="kunline" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/rp0hw8P" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达作者B站/抖音个人主页</div></div>
+    <div class="card" data-series="kunline" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class>暂无</div><div class="hint-text"><i>视频</i> 暂无</div></div>
+    <div class="card" data-series="kunline" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="966271706">复制QQ群号 (966271706)</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="kunline" data-search-content="玩家社群 复制QQ群号 904443183"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="966271706">复制QQ群号 (966271706)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
+
+    <!-- Cube-ALC -->
+    <h1 class="hero-title" data-series="cube">《Cube-ALC》</h1>
     <div class="hero-sub" data-series="cube">Dancing Line Fanmade — Cube-ALC</div>
     <div class="card" data-series="cube" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">⚠️这是一个非常简陋的DLFM合集，使用Arphros制作，没有iOS版本，没有合集UI，没有安装包，必须下载Arphros并看导入教程才可以玩。虽然简陋，但还是可以在Arphros设置里调画质、Post、音画同步，关卡比较好，很好玩，更新较快。下载完只有一个一个的.arphros文件单包，还要下载QQ浏览器保存文件管理！⚠️</div>
-        <div class="author-info"><span>作者：DL–Cubic_World(C.A.studio Offical)（总设计）</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">⚠️这是一个非常简陋的DLFM合集，使用Arphros制作，没有iOS版本，没有合集UI，没有安装包，必须下载Arphros并看导入教程才可以玩。虽然简陋，但还是可以在Arphros设置里调画质、Post、音画同步，关卡比较好，很好玩，更新较快。下载完只有一个一个的.arphros文件单包，还要下载QQ浏览器保存文件管理！⚠️</div><div class="author-info"><span>作者：DL–Cubic_World(C.A.studio Offical)（总设计）</span></div>
     </div>
     <div class="card" data-series="cube" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">V1.3.3版本更新日志
-更新内容：
-1.新增关卡：An Anniversary Party
-2.新增联合关卡：屿光p7、夜明p9
-3.提升Golden Hour和部分关卡的关卡质量
-4.修复山巅关卡的部分bug
-5.移除了联合关卡中的关卡排序
+        <h2 class="card-title">更新日志</h2><div class="intro-text">V1.3.3版本更新日志 更新内容：
+1.新增关卡：An Anniversary Party 
+2.新增联合关卡：屿光p7、夜明p9 
+3.提升Golden Hour和部分关卡的关卡质量 
+4.修复山巅关卡的部分bug 
+5.移除了联合关卡中的关卡排序 
 6.修改了下更新公告的表现形式</div>
     </div>
-         <div class="card" data-series="cube" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
-    </div>
-    <div class="card" data-series="cube" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-         <div class=>无平台链接</a>
-        </div>
-        <div class="hint-text"><i>关注</i> 点击直达滚木链接</div>
-    </div>
-<div class="card" data-series="cube" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-       <div class="button-grid three">
-            <a href="http://b23.tv/BV16kcsz9EpS" target="_blank" class="btn">1.3.3更新日志</a></div>
-        <div class="hint-text"><i>视频</i> 暂无</div>
-    </div>
-    
-    <div class="card" data-series="cube" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-       <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="1060300729">复制QQ群号 (1060300729)</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="cube" data-search-content="玩家社群 复制QQ群号 1060300729">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="1060300729">复制QQ群号 (1060300729)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-        
-        <h1 class="hero-title" data-series="noy">《Noy's Arphros Levels Collection》</h1>
+    <div class="card" data-series="cube" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="cube" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class=>无平台链接</div><div class="hint-text"><i>关注</i> 点击直达滚木链接</div></div>
+    <div class="card" data-series="cube" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid three"><a href="http://b23.tv/BV16kcsz9EpS" target="_blank" class="btn">1.3.3更新日志</a></div><div class="hint-text"><i>视频</i> 暂无</div></div>
+    <div class="card" data-series="cube" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="1060300729">复制QQ群号 (1060300729)</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="cube" data-search-content="玩家社群 复制QQ群号 1060300729"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="1060300729">复制QQ群号 (1060300729)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
+
+    <!-- Noy's Collection -->
+    <h1 class="hero-title" data-series="noy">《Noy's Arphros Levels Collection》</h1>
     <div class="hero-sub" data-series="noy">Dancing Line Fanmade — Noy's Arphros Levels Collection</div>
     <div class="card" data-series="noy" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
-            <h2 class="card-title">合集简介—Arphros</h2>
-        <div class="intro-text">NOY's Arphros Levels Collection（简称NOYALC），是一个由NOY制作的Arphros饭制合集。本合集多为原创与共创关卡。面对自制与共创关卡，用时间认真打磨质量。面对收录关卡，在保证游玩性与质量双平衡的前提下针对于收录关卡进行优化，保证玩家能够获得与原版截然不同的游玩体验。
-本合集作为迄今为止Arphros质量最高的合集，努力把持质量关，游玩关，保证合集正常运行与持续发展与优化。
-本合集由于游玩人数过少，目前处于暂时停更状态，接触停更状态时间待定。
-最后，感谢大家下载本合集！！</div>
-        <div class="author-info"><span>作者：NOY（总设计）</span></div>
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">NOY's Arphros Levels Collection（简称NOYALC），是一个由NOY制作的Arphros饭制合集。本合集多为原创与共创关卡。面对自制与共创关卡，用时间认真打磨质量。面对收录关卡，在保证游玩性与质量双平衡的前提下针对于收录关卡进行优化，保证玩家能够获得与原版截然不同的游玩体验。本合集作为迄今为止Arphros质量最高的合集，努力把持质量关，游玩关，保证合集正常运行与持续发展与优化。本合集由于游玩人数过少，目前处于暂时停更状态，接触停更状态时间待定。最后，感谢大家下载本合集！！</div><div class="author-info"><span>作者：NOY（总设计）</span></div>
     </div>
-    <div class="card" data-series="noy" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群">
-        <h2 class="card-title">更新日志</h2>
-        <div class="intro-text">暂无</div>
+    <div class="card" data-series="noy" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群"><h2 class="card-title">更新日志</h2><div class="intro-text">暂无</div></div>
+    <div class="card" data-series="noy" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="noy" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/sWdL3ox" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达哔哩哔哩中心</div></div>
+    <div class="card" data-series="noy" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid three"><a href="https://b23.tv/lb6MI3n" target="_blank" class="btn">乌托邦【复刻】</a></div><div class="button-grid three"><a href="https://b23.tv/mUHFh6M" target="_blank" class="btn">校园</a></div><div class="hint-text"><i>视频</i> 点击直达</div></div>
+    <div class="card" data-series="noy" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="697500441">复制QQ群号 (697500441)</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="noy" data-search-content="玩家社群 复制QQ群号 697500441"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="697500441">复制QQ群号 (697500441)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
+
+    <h1 class="hero-title" data-series="earos">《Earos Line》</h1>
+    <div class="hero-sub" data-series="earos">Dancing Line Fanmade — Earos Line</div>
+    <div class="card" data-series="earos" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
+        <h2 class="card-title">合集简介—Arphros<img src="https://xiaoye6661234.github.io/fo/arphros.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">本合集由Earos Studio使用Arphros制作，欢迎支持！</div><div class="author-info"><span>作者：Earos Studio（总设计）</span></div>
     </div>
-         <div class="card" data-series="noy" data-search-content="冷知识">
-        <h2 class="card-title">冷知识</h2>
-        <div class="intro-text">暂无<br></div>
+      <div class="card" data-series="earos" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群"><h2 class="card-title">更新日志</h2><div class="intro-text">【Earos Line v1.1.4.5 Update】
+[更新内容]
+*Fine Logic部分细节优化
+*Fine Logic补充部分判定
+「关卡作者:THE-PHI-PRDCR;优化:Earos Studio」
+[其他说明]
+*若要游玩本关卡优化版本,请加入官方群823709288获取最新Arphros包,并在Arphros中导入关卡后游玩
+*本关卡的原版原作者已经在关卡商店发布,可直接搜索游玩
+*快给我去支持B站官号@EarosStudio官方</div></div>
+  <div class="card" data-series="earos" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">本合集所有原创关卡都是在2025年暑假完成的，作者全是收录+优化，所以，作者需要收录支持(？<br></div></div>
+    <div class="card" data-series="earos" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/Q7m4E3c" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达哔哩哔哩中心</div></div>
+    <div class="card" data-series="earos" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid three"><a href="https://b23.tv/ZubVqmZ" target="_blank" class="btn">Fine Logic</a></div><div class="hint-text"><i>视频</i> 点击直达</div></div>
+    <div class="card" data-series="earos" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="823709288">复制QQ群号 (823709288)</button></div><div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div></div>
+    <div class="card" data-series="earos" data-search-content="玩家社群 复制QQ群号 823709288"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="823709288">复制QQ群号 (823709288)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
+
+    <h1 class="hero-title" data-series="maze">《MazeLine 1.0》</h1>
+    <div class="hero-sub" data-series="maze">Dancing Line Fanmade — MazeLine 1.0</div>
+    <div class="card" data-series="maze" data-search-content="烧烤之夜 驍烤之燁 Barbecue Night 合集简介 作者 驍燁 总设计 停更 2026 Windows">
+        <h2 class="card-title">合集简介—蛋仔派对<img src="https://xiaoye6661234.github.io/fo/egg.png"  
+   width="50" 
+     height="50" 
+     alt="图片1"></h2><div class="intro-text">合集为MazeLine前身 使用蛋仔派对制作 更古早的版本还拥有选关界面 后期被指作为单独的地图 此合集暂时没有停更 蛋仔派对搜索MazeLine可游玩 关卡质量较差</div><div class="author-info"><span>作者：cloverglow（总设计）</span></div>
     </div>
-    <div class="card" data-series="noy" data-search-content="关注">
-        <h2 class="card-title">关注作者</h2>
-        <div class="button-grid three">
-            <a href="https://b23.tv/sWdL3ox" target="_blank" class="btn">哔哩哔哩</a></div>
-        <div class="hint-text"><i>关注</i> 点击直达哔哩哔哩中心</div>
-    </div>
-<div class="card" data-series="noy" data-search-content="合集视频">
-        <h2 class="card-title">合集视频</h2>
-       <div class="button-grid three">
-            <a href="https://b23.tv/lb6MI3n" target="_blank" class="btn">乌托邦【复刻】</a></div> 
-      <div class="button-grid three">
-            <a href="】https://b23.tv/mUHFh6M" target="_blank" class="btn">校园</a></div>
-        <div class="hint-text"><i>视频</i> 点击直达</div>
-    </div>
+      <div class="card" data-series="maze" data-search-content="烧烤之夜 更新日志 v1.0.0 开端 陨石危机 很快回来 设置界面 选关界面 Windows QQ群"><h2 class="card-title">更新日志</h2><div class="intro-text">注：版本号经过后期重制
+V1.0.0 地图发布
+V1.0.1 计划过多个关卡但地图改为单关卡 仅剩《初章》关卡
+V1.0.2 去除旧版模版的通关功能
+V1.0.3 发布地图《沙漠10%》 拥有至今未修复的飞跃可点击问题
+V1.0.4 发布地图《敬请期待》 现已收录至eggyline
+V1.0.5 游戏暂时停更</div></div>
+  <div class="card" data-series="maze" data-search-content="冷知识"><h2 class="card-title">冷知识</h2><div class="intro-text">暂无<br></div></div>
+    <div class="card" data-series="maze" data-search-content="关注"><h2 class="card-title">关注作者</h2><div class="button-grid three"><a href="https://b23.tv/Q7m4E3c" target="_blank" class="btn">哔哩哔哩</a></div><div class="hint-text"><i>关注</i> 点击直达哔哩哔哩中心</div></div>
+    <div class="card" data-series="maze" data-search-content="合集视频"><h2 class="card-title">合集视频</h2><div class="button-grid three">暂无</a></div> </div>
+    <div class="card" data-series="maze" data-search-content="下载游戏 安卓下载 暂不支持"><h2 class="card-title">下载游戏</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="https://163.com">复制链接下载蛋仔派对</button></div><div class="hint-text">⚠️ <strong>请加入下载蛋仔派对游玩</strong></div></div>
+    <div class="card" data-series="maze" data-search-content="玩家社群 复制QQ群号 1034994919"><h2 class="card-title">玩家社群</h2><div class="button-grid full"><button class="btn copy-qq-btn" data-qq="1034994919">复制QQ群号 (1034994919)</button></div><div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div></div>
     
-    <div class="card" data-series="noy" data-search-content="下载游戏 安卓下载 暂不支持">
-        <h2 class="card-title">下载游戏</h2>
-       <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="697500441">复制QQ群号 (697500441)</button>
-        </div>
-        <div class="hint-text">⚠️ <strong>请加入QQ下载</strong></div>
-    </div>
-     <div class="card" data-series="noy" data-search-content="玩家社群 复制QQ群号 697500441">
-        <h2 class="card-title">玩家社群</h2>
-        <div class="button-grid full">
-            <button class="btn copy-qq-btn" data-qq="697500441">复制QQ群号 (697500441)</button>
-        </div>
-        <div class="hint-text">下载游戏，请自行到QQ内搜索。点击按钮复制群号。</div>
-        </div>
-    <!-- 敬请期待区块 -->
+    
+    <!-- 敬请期待 -->
     <h1 class="hero-title" data-series="coming">敬请期待</h1>
     <div class="hero-sub" data-series="coming">Coming Soon</div>
-     <div class="card" data-series="coming" data-search-content="冷知识">
-        <h2 class="card-title">敬请期待</h2>
-        <div class="intro-text">滚木滚木滚木滚木<br></div>
+            <div class="card" data-series="coming" data-search-content="图片">
+  <img src="https://xiaoye6661234.github.io/fo/gunmu.png"  
+   width="720" 
+     height="720" 
+     style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+     alt="图片1">
+     <br>
+     <div class="hint-text"><i>滚木</i>滚木</div>
     </div>
+    <div class="card" data-series="coming" data-search-content="冷知识"><h2 class="card-title">敬请期待</h2><div class="intro-text">滚木滚木滚木滚木<br></div></div>
+
     <div class="footer-note">跳舞的线饭制网2026</div>
 </div>
 
-<!-- 公告卡片 (已移除关闭叉号，只保留确定按钮) -->
-<div id="announcementOverlay" class="announcement-overlay">
-    <div class="announcement-card" id="swipeableAnnouncement">
-        <!-- 叉号按钮已被CSS隐藏，无需删除HTML，保留结构但不可见 -->
-        <button class="announcement-close" id="announceCloseBtn" style="display: none;"></button>
-        <div class="announcement-title">公告</div>
-        <strong>首次进站必读</strong>
+<!-- 公告A (原公告) -->
+<div id="announcementOverlayA" class="announcement-overlay">
+    <div class="announcement-card">
+        <div class="announcement-title">规则 • 必读</div>
+        <strong>首次进站必读！</strong>
         <div class="announcement-content">
-            <strong>欢迎来到跳舞的线饭制网！</strong><br>★本网站目前收录想要上架到此网站的应用<br>★本网站收录的饭制合集须符合<strong><a href="https://docs.chinadlrs.com/docs/policy/developer">DLRS 同人群官网开发者守则</a></strong>，若含有违规内容（例如色情、血腥、暴力以及国家禁止的内容等），不给予上架<br>★此网站为跳舞的线同人作品汇集网站，<strong>没有任何商业性广告，请注意任何盗版链接</strong><br>★如果您也想上架您的作品至这里，欢迎联系邮箱：<a href="https://wx.mail.qq.com/home/index?sid=zVg1Toy7OWQuwTNIAD5rTAAA#/list/1/1">goodgood0222@qq.com</a>（邮箱与申请表一起收集最多十份），或者填写<a href="https://docs.qq.com/form/page/DR1VyTVZKZUt5eXpR"><strong>收集表</a></strong>（需提供合集名称、合集简介、下载方式、QQ群链接、其他应用个人中心链接。如没有，就在相应栏目填写：无），<strong>收集表每周日到次周五，与邮箱开放10份填写资格，并且会对用户填写的答案进行审查，如果超出10份，先更新申请表合集，再按需求更新邮箱申请合集</strong><br>★网站所有内容都已获得原作者授权<br>★将来可能因作者学业问题，此网站更新可能不会太频繁，如果愿意承担编辑网站的责任，也欢迎加QQ：1052883800，经作者授权后，即可获得网站修改权<br>★请不要恶意将此网站与DLRS 同人群官网进行对比，本网站与DLRS 同人群官网除开发者守则外，无任何关系<br>★网站作者在此声明，此网站完全合法合规，并且不会对用户个人信息进行收集（我们没有数据库）<br>★如果有任何不实虚假等内容，请联系我们审查，联系邮箱：<a href="https://wx.mail.qq.com/home/index?sid=zVg1Toy7OWQuwTNIAD5rTAAA#/list/1/1">goodgood0222@qq.com</a><br>★本网站提供的下载方式仅供快捷下载，禁止未经饭制原作者授权私自传包和“饭制商业化”等行为，如有，将承受相应法律责任！<br><br><strong>近期更新</strong><br>1.搜索功能，在搜索框里面搜索任意关键词即可跳转<br>2.浅深色切换，再也不怕晚上看伤眼睛了！<br>3.饭制快速查找，终于不用滑不到了<br>4.一些新饭制，有什么呢？<br>5.引导线更新，1.0.7版本强势更新！<br>6.新增加“冷知识板块”，来看看合集背后的故事吧<br>7.严重打击未经开发者授权的传包行为及“饭制商业化”！<br>8.开放申请表与邮箱申请，欢迎加入我们的大家庭！<br>
+            <strong>欢迎您访问并使用“跳舞的线饭制网”（以下简称“本网站”）。本网站是由驍燁个人搭建并运营的非商业性爱好者交流平台，旨在为《跳舞的线》游戏爱好者提供饭制作品（同人作品）的展示与分享服务。为保障网站运营秩序及所有用户的合法权益，请您在使用本网站服务前仔细阅读并充分理解本协议全部内容。如您对本协议任何条款有异议，请立即停止使用本网站服务；您的继续使用行为将视为对本协议所有条款的完全接受。
+
+第一章 总则
+
+第一条 网站性质与所有权
+
+1. 本网站为驍燁个人所有并维护，是以《跳舞的线》相关饭制作品为核心内容的非商业性个人网站，其所有权、运营权归驍燁（以下简称“站主”）所有。
+2. 站主保留根据法律法规及网站发展需要，对本协议进行修订、对网站功能进行调整或终止网站运营的权利。
+
+第二条 协议适用范围
+
+本协议适用于所有访问、浏览、注册、使用本网站及在本网站上传、下载、分享饭制作品及相关信息的用户（以下简称“用户”或“您”）。
+
+第三条 协议效力
+
+本协议内容（包括站主后续可能发布的补充规则、公告、声明等）构成您与本网站之间关于使用服务的完整协议。您在使用本网站特定服务时，还需遵守该等特定服务项下的单独协议或规则。
+
+第二章 知识产权与版权声明
+
+第四条 网站内容知识产权
+
+1. 本网站所展示的饭制作品（包括但不限于游戏关卡、音乐、图像、视频、文字说明等）均为相关用户（即“上架者”或“作者”）独立创作或经合法授权后上传，其著作权归原作者或合法权利人所有。
+2. 用户上传作品至本网站，即视为您同意授予本网站免费的、非独占的、永久的展示权，以便在本网站平台范围内对作品进行发布、宣传及存档。您仍保有作品的全部著作权，并有权在其他渠道自行发布。
+3. 本网站原创内容（如网站标识、排版设计、程序代码等）的知识产权归站主所有，未经许可，任何单位或个人不得擅自复制、修改、传播或用于商业用途。
+
+第五条 作品授权与来源
+
+1. 本网站内所有已上架的合集作品，均已获得原作者的明确授权。
+2. 后续通过腾讯文档收集表、邮箱申请、私信等方式申请上架的作品，若无特别注明“合集作者&所有权人为xx”且附相应证明，则默认该作品的上架者即为该作品的作者及所有权人。上架者需保证其拥有完整、合法的权利，且该权利归属在本网站展示期间不得随意变更；如需变更，应提前通知站主并提供相关权利转移证明。
+
+第六条 同人作品性质声明
+
+本网站所收录的《跳舞的线》饭制作品，系由游戏爱好者基于原游戏玩法进行的同人创作。本网站及创作者无意侵犯原游戏著作权人——猎豹移动公司（Cheetah Mobile）的合法权益。如原著作权人对相关作品有异议，可通过本协议末联系方式联系站主，站主将在核实后依法采取必要措施（包括但不限于下架相关作品）。
+
+第三章 用户行为规范
+
+第七条 信息管理
+
+1. 您在本网站发布的任何信息（包括昵称、头像、评论、作品简介等）均应遵守法律法规及本协议，不得含有以下内容：
+   · 违反国家宪法、法律、行政法规的；
+   · 危害国家安全、泄露国家秘密、颠覆国家政权、破坏国家统一的；
+   · 损害国家荣誉和利益的；
+   · 煽动民族仇恨、民族歧视，破坏民族团结的；
+   · 破坏国家宗教政策，宣扬邪教和封建迷信的；
+   · 散布谣言，扰乱社会秩序，破坏社会稳定的；
+   · 散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；
+   · 侮辱或者诽谤他人，侵害他人合法权益的；
+   · 含有法律、行政法规禁止的其他内容的。
+
+第八条 饭制作品内容规范
+
+1. 本网站对饭制作品本身的艺术质量不设审查标准，但将严格监督作品的合法性。严禁作品（包括但不限于游戏关卡内场景、配乐、名称、简介、截图等）包含以下违法违规内容：
+   · 色情内容：明显的性暗示、色情词语、色情图片、色情音频或涉及色情交易等；
+   · 侵权内容：未经他人允许私自修改他人工程、抄袭他人布景设计（非通用元素）、原封不动搬运他人作品并署自己之名；
+   · 暴力血腥：宣扬暴力、虐待、血腥场景、恐怖惊悚画面等；
+   · 赌博内容：涉及赌博工具、赌博场所或赌博行为等；
+   · 毒品内容：宣扬吸毒、毒品制作、毒品交易等（经批准的禁毒宣传教育内容除外）；
+   · 其他不宜内容：包含以上任何一项，或内容主题、布景等不适宜未成年人接触。
+
+第九条 禁止非法传播与商业倒卖
+
+1. 本网站严厉禁止任何未经授权的非法传播行为。用户不得将本站作品提供的安装包下载链接（APK等格式）擅自上传至其他网站、平台或通过其他渠道进行大规模传播，尤其严禁以下行为：
+   · 将安装包上传至任何商业性网站、应用市场，并设置付费下载或变相收费；
+   · 将安装包作为自己产品的一部分进行出售或捆绑销售；
+   · 以“代安装”“代找资源”等名义向他人收取费用。
+2. 任何以商业目的使用本网站作品的行为，均须事先获得作品著作权人及站主的书面许可。
+
+第十条 用户互动规范
+
+1. 用户在本网站评论区、论坛（如有）等互动区域交流时，应保持友善、理性，不得发布引战、谩骂、人身攻击、歧视性言论或恶意刷屏。
+2. 不得恶意举报、虚假投诉或利用规则干扰其他用户正常使用网站。
+
+第四章 作品上架规则
+
+第十一条 上架申请方式
+
+用户可通过以下任一方式提交作品上架申请：
+
+1. 收集表：每周开放名额为10个，开放时间每周日12:00至次周五12:00（以网站公告为准）。名额满后收集表自动关闭。
+2. 邮箱申请：每周开放名额为3个，请将申请发送至邮箱 goodgood0222@qq.com。邮件标题请注明“饭制作品上架申请”，并在正文中按第十二条要求提供完整信息。
+3. 官方私信：如果遇到本网站官方账号私信联系，即可直接上架（24小时内无回复即视为作废）。
+
+第十二条 上架信息要求
+
+申请上架作品时，应提供以下完整信息，其中“必填项”缺失可能导致申请不予受理：
+
+（一）必填项
+
+1. 合集名称：有明确的名称；如仅有中文名，可由站方协助翻译成英文（使用DeepSeek等工具）。
+2. 合集简介：简要介绍作品、特点或创作背景，如“《XXX》是由XXX制作的以XXX为主题的音乐关卡”。
+3. 制作引擎/软件/方式：例如使用Unity、Arphros、Html等。
+4. 作者信息：必须提供真实、准确的作者名称（个人或团队），不得冒名顶替。如有多个作者，请全部列出。
+5. 下载方式：提供稳定、有效的下载链接（如百度网盘、夸克网盘等等），并确保链接长期有效；如需提取码或解压密码，请一并提供。或者加入QQ群下载
+6. 官方交流群：作品相关的QQ群号或微信群号（如有）。
+
+（二）选填项
+
+1. 更新日志：如作品有版本更新，可附上更新日志，格式如：“v1.0.0更新：①新增关卡XXX；②优化XXX”。
+2. 官网/主页：作品的官方网站、个人主页或相关链接。
+3. 冷知识/花絮：关于作品的有趣背景或小知识。
+
+第十三条 申请审核与处理
+
+1. 站主将在收到申请后1-3个工作日内进行审核。审核通过的作品将安排上架；如未通过，将通过原申请渠道告知原因（信息不全、存在违规内容等）。
+2. 用户应确保所提交信息的真实性、准确性。因信息错误导致的一切后果由申请人自行承担。
+3. 每周名额按提交时间顺序确认，额满即止。同一作品请勿重复提交多个申请渠道，以免占用名额。
+
+第五章 违规处理与投诉机制
+
+第十四条 违规处理措施
+
+如发现用户或作品存在违反本协议的行为，站主有权采取以下一项或多项措施：
+
+1. 要求违规者限期整改；
+2. 下架相关作品；
+3. 删除违规评论或信息；
+4. 封禁违规账号（暂时或永久）；
+5. 向相关执法部门报告违法行为；
+6. 其他站主认为必要的措施。
+
+第十五条 投诉与举报
+
+1. 如您发现本网站存在违规内容（包括但不限于侵权、色情、暴力、赌博等），或发现有人未经授权倒卖作品，可通过以下方式举报：
+   · 举报邮箱：goodgood0222@qq.com
+   · 私信官方社交媒体账号（见网站公告）
+2. 举报时请提供以下信息：
+   · 您的真实姓名及联系方式（以便核实，本站将对个人信息保密）；
+   · 被举报内容的链接或具体描述；
+   · 初步证明材料（如截图、权利证明等）。
+3. 站主在收到有效举报后将尽快核查处理，但对于匿名或信息不全的举报，可能无法逐一回复。
+
+第六章 免责声明
+
+第十六条 信息真实性免责
+
+本网站所有作品均由用户自行上传并发布，站主对作品内容的真实性、合法性、准确性、完整性不承担任何明示或暗示的保证。用户应自行判断并承担使用风险。
+
+第十七条 外部链接免责
+
+本网站可能包含跳转至第三方网站或资源的链接，该类链接仅为方便用户而提供，不代表站主对第三方内容的认可。您访问任何第三方链接所产生的风险由您自行承担。
+
+第十八条 站主学业因素
+
+本网站由站主个人利用课余时间维护与管理。因站主学业任务（包括但不限于考试、课程设计、毕业论文、实习等）可能导致网站更新延迟、服务暂时中断或部分功能无法正常使用。站主将尽力提前告知并在学业允许范围内维持网站运行，但无法保证服务不中断或不受影响。对于因站主学业原因造成的任何不便或损失，站主不承担法律责任。
+
+第十九条 未成年人保护
+
+本网站部分内容可能不适合未成年人观看。监护人应引导未成年人合理使用互联网，避免接触不适宜内容。如发现本网站存在对未成年人有害的信息，请及时举报。
+
+第七章 协议修改与终止
+
+第二十条 协议修改
+
+站主有权根据法律法规变化或网站运营需要，随时修改本协议的任何条款，并在本网站显著位置公布修改后的协议。修改后的协议自公布之日起生效。如您继续使用本网站服务，即视为同意接受修改后的协议约束。
+
+第二十一条 服务终止
+
+站主保留在不事先通知的情况下，随时暂停或终止本网站全部或部分服务的权利。对于因服务终止给您造成的损失，站主不承担责任。
+
+第八章 其他
+
+第二十二条 联系方式
+
+如对本协议或本网站有任何疑问、意见或建议，欢迎通过以下方式联系：
+
+· 邮箱：goodgood0222@qq.com
+· 官方社交媒体：请关注本网站公告获取最新联系方式
+
+第二十三条 协议生效
+
+本协议自发布之日起生效。您开始使用本网站服务即视为您已阅读并同意本协议的全部条款。
+——————————
+跳舞的线饭制网（DancingLine Fan-Made Website）
+站主：驍燁
+发布日期：2026.3.13
+最后修订：2026.3.13<br>
         </div>
         <div class="announcement-button">
-            <button class="announcement-btn" id="announceConfirmBtn">确定</button>
+            <button class="announcement-btn" id="announceAConfirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 公告B (新增) -->
+<div id="announcementOverlayB" class="announcement-overlay announcement-hidden">
+    <div class="announcement-card">
+        <div class="announcement-title">公告</div>
+        <strong>更新内容</strong>
+        <div class="announcement-content">
+1.更新单独的设置界面
+2.更新了图片预览板块，现在用户上架应用的时候可以添加图片了
+3.增加了两个新饭制
+4.更新和网站规则板块
+5.更新的返回首页按钮，现在用户在浏览其他饭制的时候，点击此按钮即可一键返回首页
+6.全面适配手机电脑，我就不信还有问题
+7.更新了滚木
+        </div>
+        <div class="announcement-button">
+            <button class="announcement-btn" id="announceBConfirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- 设置浮层 (已移除关闭图标) -->
+<div id="settingsOverlay" class="settings-overlay announcement-hidden">
+    <div class="settings-card">
+        <!-- 关闭图标已移除，只保留底部关闭按钮 -->
+        <div class="settings-title">设置</div>
+        <div class="settings-content">
+            <div class="settings-row">
+                <button class="btn" id="settingsDarkToggle">🌑 深色模式</button>
+                <button class="btn" id="settingsSaveData">保存数据</button>
+            </div>
+            <div class="settings-row">
+                <button class="btn" id="settingsFeedback">反馈</button>
+                <button class="btn" id="settingsShowAnnounceB">更新公告</button>
+            </div>
+            <div class="hint-text" style="text-align:center;">保存数据暂不可用</div>
+        </div>
+        <div class="settings-footer">
+            <button class="btn" id="settingsCloseBtn">关闭</button>
         </div>
     </div>
 </div>
 
 <script>
 (function() {
-    // 获取需要操作的元素
-    const directoryItems = document.querySelectorAll('.directory-item');
-    const seriesElements = document.querySelectorAll('[data-series]');  // 所有带 data-series 的元素
+    // 获取元素
+    const directoryItems = document.querySelectorAll('.directory-item[data-series]'); // 只取有data-series的（排除设置按钮）
+    const settingsBtn = document.getElementById('settingsBtn');
+    const seriesElements = document.querySelectorAll('[data-series]');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchButton');
     const allCards = Array.from(document.querySelectorAll('.card'));
-    const themeToggle = document.getElementById('themeToggle');
-    const overlay = document.getElementById('announcementOverlay');
-    const confirmBtn = document.getElementById('announceConfirmBtn');
-    // 不再绑定关闭叉号，滑动关闭功能已完全移除
+    const returnHomeBar = document.getElementById('returnHomeBar');
+    const overlayA = document.getElementById('announcementOverlayA');
+    const overlayB = document.getElementById('announcementOverlayB');
+    const confirmA = document.getElementById('announceAConfirm');
+    const confirmB = document.getElementById('announceBConfirm');
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const settingsCloseBtn = document.getElementById('settingsCloseBtn');
+    const settingsDarkToggle = document.getElementById('settingsDarkToggle');
+    const settingsSaveData = document.getElementById('settingsSaveData');
+    const settingsFeedback = document.getElementById('settingsFeedback');
+    const settingsShowAnnounceB = document.getElementById('settingsShowAnnounceB');
+    const body = document.body;
 
-    // ---------- 工具函数：使用 View Transitions 平滑更新 ----------
-    function updateWithTransition(updateFn) {
-        if (document.startViewTransition) {
-            document.startViewTransition(updateFn);
+    // 浮层计数 (用于禁止背景滚动)
+    let activeOverlays = 0;
+
+    function updateBodyScroll() {
+        if (activeOverlays > 0) {
+            body.classList.add('no-scroll');
         } else {
-            updateFn();
+            body.classList.remove('no-scroll');
         }
     }
 
-    // ---------- 系列切换逻辑 ----------
-    function setActiveSeries(series) {
-        directoryItems.forEach(item => {
-            item.classList.toggle('active', item.dataset.series === series || (series === 'all' && item.dataset.series === 'all'));
-        });
-        seriesElements.forEach(el => {
-            if (series === 'all') {
-                el.classList.remove('series-hidden');
-            } else {
-                el.classList.toggle('series-hidden', el.dataset.series !== series);
-            }
-        });
+    function showOverlay(overlay) {
+        if (overlay.classList.contains('announcement-hidden')) {
+            overlay.classList.remove('announcement-hidden');
+            activeOverlays++;
+            updateBodyScroll();
+        }
     }
 
-    // ---------- 搜索逻辑 ----------
+    function hideOverlay(overlay) {
+        if (!overlay.classList.contains('announcement-hidden')) {
+            overlay.classList.add('announcement-hidden');
+            activeOverlays--;
+            updateBodyScroll();
+        }
+    }
+
+    // 视图过渡
+    function updateWithTransition(updateFn) {
+        if (document.startViewTransition) document.startViewTransition(updateFn);
+        else updateFn();
+    }
+
+    // 系列切换
+    function setActiveSeries(series) {
+        directoryItems.forEach(item => {
+            item.classList.toggle('active', item.dataset.series === series);
+        });
+        // 全部饭制按钮的高亮单独处理 (因为它是all-btn)
+        const allBtn = document.querySelector('.directory-item.all-btn');
+        if (allBtn) allBtn.classList.toggle('active', series === 'all');
+
+        seriesElements.forEach(el => {
+            if (series === 'all') el.classList.remove('series-hidden');
+            else el.classList.toggle('series-hidden', el.dataset.series !== series);
+        });
+
+        // 控制返回首页栏的显示：当系列不是all时显示
+        if (series === 'all') {
+            returnHomeBar.style.display = 'none';
+        } else {
+            returnHomeBar.style.display = 'flex';
+        }
+    }
+
     function performSearch() {
         const keyword = searchInput.value.trim().toLowerCase();
         allCards.forEach(card => {
@@ -1304,21 +1460,13 @@ Poolcore – Ethereal Studio
         });
     }
 
-    function debounce(func, delay) {
+    const debounce = (func, delay) => {
         let timer;
-        return function (...args) {
-            clearTimeout(timer);
-            timer = setTimeout(() => func.apply(this, args), delay);
-        };
-    }
+        return (...args) => { clearTimeout(timer); timer = setTimeout(() => func.apply(this, args), delay); };
+    };
+    const performSearchWithTransition = debounce(() => updateWithTransition(performSearch), 200);
 
-    const performSearchWithTransition = debounce(() => {
-        updateWithTransition(() => {
-            performSearch();
-        });
-    }, 200);
-
-    // 目录点击
+    // 目录点击 (只针对有data-series的项)
     directoryItems.forEach(item => {
         item.addEventListener('click', function() {
             const series = this.dataset.series;
@@ -1329,22 +1477,72 @@ Poolcore – Ethereal Studio
         });
     });
 
-    // 搜索事件
-    searchBtn.addEventListener('click', () => {
+    // 返回首页栏点击
+    returnHomeBar.addEventListener('click', () => {
         updateWithTransition(() => {
+            setActiveSeries('all');
             performSearch();
         });
     });
+
+    // 搜索
+    searchBtn.addEventListener('click', () => updateWithTransition(performSearch));
     searchInput.addEventListener('keyup', e => e.key === 'Enter' && performSearchWithTransition());
     searchInput.addEventListener('input', performSearchWithTransition);
 
-    // 深色模式
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌑';
+    // 设置按钮
+    settingsBtn.addEventListener('click', () => {
+        showOverlay(settingsOverlay);
     });
 
-    // 复制QQ按钮绑定
+    // 关闭设置
+    settingsCloseBtn.addEventListener('click', () => {
+        hideOverlay(settingsOverlay);
+    });
+
+    // 深色模式
+    function toggleDarkMode() {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+        settingsDarkToggle.textContent = isDark ? '☀️ 浅色模式' : '🌑 深色模式';
+    }
+    settingsDarkToggle.textContent = body.classList.contains('dark-mode') ? '☀️ 浅色模式' : '🌑 深色模式';
+    settingsDarkToggle.addEventListener('click', toggleDarkMode);
+
+    // 保存数据 (模拟)
+    settingsSaveData.addEventListener('click', () => {
+        alert('数据已保存 (模拟) 当前模式：' + (body.classList.contains('dark-mode') ? '深色' : '浅色'));
+    });
+
+    // 反馈
+    settingsFeedback.addEventListener('click', () => {
+        window.location.href = 'mailto:goodgood0222@qq.com?subject=跳舞的线饭制网反馈';
+    });
+
+    // 从设置中打开公告B (公告层级高于设置，直接显示)
+    settingsShowAnnounceB.addEventListener('click', () => {
+        showOverlay(overlayB);
+    });
+
+    // 公告A确定 -> 关闭A，显示B
+    confirmA.addEventListener('click', () => {
+        hideOverlay(overlayA);
+        showOverlay(overlayB);
+    });
+
+    // 公告B确定 -> 关闭B
+    confirmB.addEventListener('click', () => {
+        hideOverlay(overlayB);
+    });
+
+    // 初始化：显示公告A (但不叠加计数，因为初始activeOverlays为0，手动设置)
+    overlayA.classList.remove('announcement-hidden');
+    overlayB.classList.add('announcement-hidden');
+    settingsOverlay.classList.add('announcement-hidden');
+    activeOverlays = 1; // 公告A显示
+    updateBodyScroll();
+
+    // 复制QQ按钮
     function bindCopyQQ() {
         document.querySelectorAll('.copy-qq-btn').forEach(btn => {
             btn.replaceWith(btn.cloneNode(true));
@@ -1372,16 +1570,7 @@ Poolcore – Ethereal Studio
         });
     }
 
-    // ---------- 公告关闭：仅保留确定按钮，滑动关闭与叉号事件已移除 ----------
-    function hideAnnouncement() { 
-        overlay.classList.add('announcement-hidden'); 
-    }
-    if (confirmBtn) confirmBtn.addEventListener('click', hideAnnouncement);
-
-    // 确保公告可见
-    overlay.classList.remove('announcement-hidden');
-
-    // 初始化
+    // 初始状态：全部饭制
     setActiveSeries('all');
     bindCopyQQ();
     searchInput.value = '';
